@@ -33,6 +33,8 @@ class Graph{
         //bool NodeExists(const Node & a)const;
         bool NodeExist(const string& name)const; //defined
 
+        bool NodeExistAdj(const Node& a,size_t id)const;
+
         //returns the id of the node with given name
         size_t findID(const string& name)const; //defined
 

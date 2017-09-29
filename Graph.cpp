@@ -30,15 +30,36 @@ Graph::Graph(const string& file){
 }
 //Insert a edge ( a ,b ) to m_adjList
 void Graph::addEdge ( const Node & a , const Node & b ) {
-    //adds the two nodes to the others adj list and prevents duplicates
-    m_adjList[a.id()].push_back(b);
-    m_adjList[b.id()].push_back(a);
+    //the addEdge will add each node it to the others adj list if
+    // - the node is not already in the list
+
+    //add only the node that does not already exist in the lists
+    if(!NodeExistAdj( b, a.id() ) )
+        m_adjList[a.id()].push_back(b);
+    if(!NodeExistAdj( a, b.id() ) )
+        m_adjList[b.id()].push_back(a);
 }
 
 //Insert a node a to m_nodes
 void Graph::addNode ( const Node & a ) {
-    m_nodes.reserve( m_nodes.size() + 1 );
-    m_nodes [ a.id( ) ] = a ;
+    ///add the node to the Graph's node vector
+    ///if the node does not already exist
+    //checking is the node is already in the vector
+    if( !NodeExist(a.name() ) ){
+        m_nodes.reserve( m_nodes.size() + 1 );
+        m_nodes [ a.id( ) ] = a ;
+    }
+}
+
+
+bool Graph::NodeExistAdj(const Node& a, size_t id)const{
+    ///checks if node a is in the adj list for the node with the ID value of id
+    const list<Node> Adjlist = getAdjNodes( getNode(id) );
+    for(list<Node>::const_iterator itr = Adjlist.begin(); itr != Adjlist.end(); ++itr ){
+        if(a == *itr)
+            return true;
+    }
+    return false;
 }
 
 bool Graph::NodeExist(const string& name)const{
@@ -84,7 +105,7 @@ size_t Graph::num_nodes ( ) const {
 }
 
 //only splits strings into two on tab character
-vector<string>& split(const string& a){
+vector<string> split(const string& a){
     vector<string> names;
     for(size_t i = 0; i < a.size()-1; i++ ){
         if(a[i] == '\t'){

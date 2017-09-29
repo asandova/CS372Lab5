@@ -19,6 +19,8 @@
 
 using namespace std;
 
+int time;
+
 void DFS(Graph & G){
 
 }
@@ -34,14 +36,19 @@ void DFSIntative(Graph & G){
 
 void Explore(Graph & G, Node & C){
     //check if the node has been visited
-    //if(C.getPreTime() == 0)
-        //return;
-    //set post time
-    //C.setPreTime();
-     //look for next node
+    if(C.getPreTime() == -1) //base case
+        return;
 
     //set post time
-   // C.setPostTime();
+    C.setPreTime(time++);
+     //look for next node
+     const list<Node> links = G.getAdjNodes( C );
+     Node order;
+     for(list<Node>::const_iterator itr = links.begin(); itr != links.end() ; ++itr ){
+            order = *itr;
+     }
+    //set post time
+   C.setPostTime(time++);
 }
 
 void testall(){
@@ -57,6 +64,7 @@ void testall(){
 
 int main(){
 
+    time = 1;
     testall();
 
     return 0;
