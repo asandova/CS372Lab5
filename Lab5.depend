@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1506625056 source:g:\programs\cs372lab5\lab5\main.cpp
+	<iostream>
+	<vector>
+	<string>
+	<cstdlib>
+	<cstdio>
+	<ctype.h>
+	"Node.h"
+	"Graph.h"
+
+1506625057 g:\programs\cs372lab5\lab5\node.h
+	<string>
+
+1506624991 g:\programs\cs372lab5\lab5\graph.h
+	<iostream>
+	<vector>
+	<list>
+
+1506625075 source:g:\programs\cs372lab5\lab5\node.cpp
+	<iostream>
+	<string>
+	"Node.h"
+
