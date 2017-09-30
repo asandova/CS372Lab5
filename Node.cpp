@@ -14,15 +14,15 @@ using namespace std;
 
 Node::Node(){
     m_name = "NULL";
-    preTime = -1;
-    postTime = -1;
+    preTime = 0;
+    postTime = 0;
 };
 
 Node::Node(const string & name, int id){
         m_name = name;
         m_id = id;
-        preTime = -1;
-        postTime = -1;
+        preTime = 0;
+        postTime = 0;
 }
 
 int Node::id()const{

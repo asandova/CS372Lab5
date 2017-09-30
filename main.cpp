@@ -20,18 +20,28 @@
 using namespace std;
 
 int time;
+Node nulNode("",-1);
 
 void DFS(Graph & G){
+
 
 }
 
 void DFSRecursive(Graph & G){
-
-
+    Node starting = nulNode;
+    for(size_t i = 0;i < G.num_nodes(); i++){
+        if(starting < G.getNode(i) && G.getNode(i).getPreTime() == 0){
+            starting = G.getNode(i);
+        }
+    }
+    if(starting == nullptr)
+        return
+    else
+        DFS(G);
 }
 
 void DFSIntative(Graph & G){
-
+    ///use stacks
 }
 
 void Explore(Graph & G, Node & C){
@@ -45,7 +55,7 @@ void Explore(Graph & G, Node & C){
      const list<Node> links = G.getAdjNodes( C );
      Node order;
      for(list<Node>::const_iterator itr = links.begin(); itr != links.end() ; ++itr ){
-            order = *itr;
+            Explore(G,*itr);
      }
     //set post time
    C.setPostTime(time++);

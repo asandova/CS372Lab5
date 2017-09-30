@@ -34,10 +34,29 @@ void Graph::addEdge ( const Node & a , const Node & b ) {
     // - the node is not already in the list
 
     //add only the node that does not already exist in the lists
-    if(!NodeExistAdj( b, a.id() ) )
-        m_adjList[a.id()].push_back(b);
-    if(!NodeExistAdj( a, b.id() ) )
-        m_adjList[b.id()].push_back(a);
+    //and inserts the nodes in alphabetical order
+    if(!NodeExistAdj( b, a.id() ) ){
+        list<Node> adjList = getAdjNodes(a);
+        for(list<Node>::const_iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
+            if(*itr > b){
+                --itr;
+                m_adjList[a.id()].insert(itr,b);
+                break;
+            }
+        }
+        //m_adjList[a.id()].push_back(b);
+    }
+    if(!NodeExistAdj( a, b.id() ) ){
+        list<Node> adjList = getAdjNodes(b);
+        for(list<Node>::const_iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
+            if(*itr > a){
+                --itr;
+                m_adjList[b.id()].insert(itr,a);
+                break;
+            }
+        }
+        //m_adjList[b.id()].push_back(a);
+    }
 }
 
 //Insert a node a to m_nodes
