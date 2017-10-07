@@ -30,33 +30,31 @@ Graph::Graph(const string& file){
 }
 //Insert a edge ( a ,b ) to m_adjList
 void Graph::addEdge ( const Node & a , const Node & b ) {
-    //the addEdge will add each node it to the others adj list if
-    // - the node is not already in the list
-
-    //add only the node that does not already exist in the lists
-    //and inserts the nodes in alphabetical order
+    //the addEdge will add node b to node a's adj list if
+        //the node is not already in the list
+            //and inserts the nodes in alphabetical order
     if(!NodeExistAdj( b, a.id() ) ){
         list<Node> adjList = getAdjNodes(a);
         for(list<Node>::const_iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
             if(*itr > b){
-                --itr;
+                //--itr;
                 m_adjList[a.id()].insert(itr,b);
                 break;
             }
         }
         //m_adjList[a.id()].push_back(b);
     }
-    if(!NodeExistAdj( a, b.id() ) ){
-        list<Node> adjList = getAdjNodes(b);
-        for(list<Node>::const_iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
-            if(*itr > a){
-                --itr;
-                m_adjList[b.id()].insert(itr,a);
-                break;
-            }
-        }
-        //m_adjList[b.id()].push_back(a);
-    }
+//    if(!NodeExistAdj( a, b.id() ) ){
+//        list<Node> adjList = getAdjNodes(b);
+//        for(list<Node>::const_iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
+//            if(*itr > a){
+//                --itr;
+//                m_adjList[b.id()].insert(itr,a);
+//                break;
+//            }
+//        }
+//        //m_adjList[b.id()].push_back(a);
+//    }
 }
 
 //Insert a node a to m_nodes
@@ -104,7 +102,10 @@ size_t Graph::findID(const string & name)const{
 }
 
 // Return node with id equal to i
-const Node & Graph::getNode ( size_t i ) const {
+Node & Graph::getNode ( size_t i ){
+    return m_nodes[ i ] ;
+}
+const Node & Graph::getNode ( size_t i )const{
     return m_nodes[ i ] ;
 }
 
@@ -204,7 +205,7 @@ ostream& operator<<(ostream & out, const Graph & g){
         const list <Node> neighbors = g.getAdjNodes ( g.getNode(i) ) ;
             for( list<Node>::const_iterator itr = neighbors.begin( ) ;
                 itr!= neighbors.end ( ) ; ++itr ) {
-                out << itr->name( ) << " ," ;
+                out << itr->name( ) << " (" << itr->getPreTime() << ", " << itr->getPostTime() << "), " ;
             }
         out << endl;
     }

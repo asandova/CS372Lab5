@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <stack>
 
 #include <cstdlib>
 #include <cstdio>
@@ -19,34 +20,62 @@
 
 using namespace std;
 
+void Explore(Graph & G, Node & C);
+
 int time;
-Node nulNode("",-1);
+Node nulNode("",0);
 
-void DFS(Graph & G){
+void DFS(Graph & G){ ///linear time DFS algorithm
 
-
+    for(size_t i = 0; i < G.num_nodes(); i ++){ ///finds unexplored node
+        if( G.getNode(i).getPreTime() == 0  ){ ///checks if Node with ID i is unexplored
+            G.getNode(i).setPreTime(time++); ///sets pretime of unexplored node
+            list<Node> adj = G.getAdjNodes( G.getNode(i) );/// gets the adjacency list
+            for(list<Node>::const_iterator itr = adj.begin(); itr != adj.end(); ++itr){ ///looks for next unexplored node connected to current node
+                if( itr->getPreTime() != 0 ){///check if node in list is unexplored
+                        itr->setPreTime(time++);///sets pretime of node
+                        Explore(G,*itr); ///find next unexplored node
+                        itr->setPostTime(time++);///sets post time of node
+                }
+            }//end of for
+        }//end of if
+    }//end of for
 }
 
-void DFSRecursive(Graph & G){
+void DFSRecursive(Graph & G){ /// Recursive DFS algorithm
     Node starting = nulNode;
     for(size_t i = 0;i < G.num_nodes(); i++){
         if(starting < G.getNode(i) && G.getNode(i).getPreTime() == 0){
             starting = G.getNode(i);
         }
     }
-    if(starting == nullptr)
-        return
-    else
-        DFS(G);
+    if(starting == nulNode)
+        return;
+    else{
+        starting.setPreTime(time++);
+        Explore(G,starting);
+        starting.setPostTime(time++);
+        DFSRecursive(G);
+    }
 }
 
-void DFSIntative(Graph & G){
+void DFSItative(Graph & G){ /// Iterative DFS algorithm
     ///use stacks
+    stack<Node> dfs;
+
+    for(size_t i = 0; i < G.num_nodes(); i++){
+        list<node> adj = G.getAdjNodes(G.getNode(i));
+        for(list<Node>::const_iterator itr = adj.begin(); itr != adj.end(); ++itr){
+
+        }
+    }
+
+
 }
 
 void Explore(Graph & G, Node & C){
     //check if the node has been visited
-    if(C.getPreTime() == -1) //base case
+    if(C.getPreTime() != 0) //base case
         return;
 
     //set post time
@@ -70,11 +99,22 @@ void testall(){
     Tgraph2.save("Graph2out.txt");
     Tgraph3.save("Graph3out.txt");
 
+
+    ///test linear
+    //time = 1;
+    //DFS(Tgraph1);
+    ///test recursive
+    //time = 1;
+    //DFSRecursive(Tgraph2);
+    ///test iterative
+   // time = 1;
+    //DFSItative(Tgraph3);
+
+
 }
 
 int main(){
 
-    time = 1;
     testall();
 
     return 0;

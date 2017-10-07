@@ -39,7 +39,8 @@ class Graph{
         size_t findID(const string& name)const; //defined
 
         // Return node with id equal to i
-        const Node & getNode ( size_t i ) const; //defined6
+        Node & getNode ( size_t i ) ; //defined
+        const Node & getNode ( size_t i ) const; //defined
 
         // Return reference of the adjacency list of node a
         list <Node> & getAdjNodes ( const Node & a );//defined
