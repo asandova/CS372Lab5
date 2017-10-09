@@ -31,7 +31,7 @@ void DFS(Graph & G){ ///linear time DFS algorithm
         if( G.getNode(i).getPreTime() == 0  ){ ///checks if Node with ID i is unexplored
             G.getNode(i).setPreTime(time++); ///sets pretime of unexplored node
             list<Node> adj = G.getAdjNodes( G.getNode(i) );/// gets the adjacency list
-            for(list<Node>::const_iterator itr = adj.begin(); itr != adj.end(); ++itr){ ///looks for next unexplored node connected to current node
+            for(list<Node>::iterator itr = adj.begin(); itr != adj.end(); ++itr){ ///looks for next unexplored node connected to current node
                 if( itr->getPreTime() != 0 ){///check if node in list is unexplored
                         itr->setPreTime(time++);///sets pretime of node
                         Explore(G,*itr); ///find next unexplored node
@@ -61,15 +61,22 @@ void DFSRecursive(Graph & G){ /// Recursive DFS algorithm
 
 void DFSItative(Graph & G){ /// Iterative DFS algorithm
     ///use stacks
+
     stack<Node> dfs;
-
-    for(size_t i = 0; i < G.num_nodes(); i++){
-        list<node> adj = G.getAdjNodes(G.getNode(i));
-        for(list<Node>::const_iterator itr = adj.begin(); itr != adj.end(); ++itr){
-
+    G.getNode(0).setPreTime(time++);
+    dfs.push( G.getNode( 0 ) );
+    while(!dfs.empty()){
+        list<Node> adj = G.getAdjNodes( dfs.top() );
+        for(list<Node>::iterator itr = adj.begin(); itr != adj.end(); ++itr){
+            if(itr->getPreTime() == 0){
+                itr->setPreTime(time++);
+                dfs.push(*itr);
+                continue;
+            }
         }
+        dfs.top().setPostTime(time++);
+        dfs.pop();
     }
-
 
 }
 
@@ -82,7 +89,6 @@ void Explore(Graph & G, Node & C){
     C.setPreTime(time++);
      //look for next node
      const list<Node> links = G.getAdjNodes( C );
-     Node order;
      for(list<Node>::const_iterator itr = links.begin(); itr != links.end() ; ++itr ){
             Explore(G,*itr);
      }

@@ -35,7 +35,7 @@ void Graph::addEdge ( const Node & a , const Node & b ) {
             //and inserts the nodes in alphabetical order
     if(!NodeExistAdj( b, a.id() ) ){
         list<Node> adjList = getAdjNodes(a);
-        for(list<Node>::const_iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
+        for(list<Node>::iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
             if(*itr > b){
                 //--itr;
                 m_adjList[a.id()].insert(itr,b);
@@ -117,6 +117,16 @@ list <Node> & Graph::getAdjNodes ( const Node & a ){
 // Return constant reference to adjacency list of node a
 const list <Node> & Graph::getAdjNodes ( const Node & a ) const{
     return m_adjList [ a.id ( ) ] ;
+}
+
+bool Graph::allExplored(size_t id)const{
+    list<Node> L = getAdjNodes( getNode( id ) );
+    for(list<Node>::const_iterator itr = L.begin(); itr != L.end(); ++itr){
+        if(itr->getPreTime() == 0){
+            return true;
+        }
+    }
+    return false;
 }
 
 // Return the total number of nodes i n the graph

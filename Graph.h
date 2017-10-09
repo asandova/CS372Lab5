@@ -40,6 +40,7 @@ class Graph{
 
         // Return node with id equal to i
         Node & getNode ( size_t i ) ; //defined
+
         const Node & getNode ( size_t i ) const; //defined
 
         // Return reference of the adjacency list of node a
@@ -47,6 +48,8 @@ class Graph{
 
         // Return constant reference to adjacency list of node a
         const list <Node> & getAdjNodes ( const Node & a ) const; //defined
+
+        bool allExplored(size_t id)const;
 
         // Return the total number of nodes i n the graph
         size_t num_nodes ( ) const; //defined
