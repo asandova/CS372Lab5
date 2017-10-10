@@ -54,6 +54,13 @@ const string & Node::name()const{
 }
 
 //comparison operator overloading
+
+ostream& operator<<(ostream & out, const Node & n){
+    out << n.m_name << " " << n.m_id << endl;
+    out << n.preTime << " " << n.postTime;
+    return out;
+}
+
 bool Node::operator==(const Node& b)const{
     if( m_id == b.id()  && m_name == b.name() ){
         return true;

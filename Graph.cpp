@@ -26,6 +26,8 @@ Graph::Graph(){
 }*/
 
 Graph::Graph(const string& file){
+    m_nodes = vector<Node>();
+    m_adjList = vector<list<Node> >();
     scan(file);
 }
 //Insert a edge ( a ,b ) to m_adjList
@@ -33,28 +35,20 @@ void Graph::addEdge ( const Node & a , const Node & b ) {
     //the addEdge will add node b to node a's adj list if
         //the node is not already in the list
             //and inserts the nodes in alphabetical order
-    if(!NodeExistAdj( b, a.id() ) ){
+    if( getAdjNodes(a).empty() ){
+        getAdjNodes(a).push_back(b);
+    }
+    else if(!NodeExistAdj( b, a.id() ) ){
         list<Node> adjList = getAdjNodes(a);
         for(list<Node>::iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
             if(*itr > b){
                 //--itr;
                 m_adjList[a.id()].insert(itr,b);
-                break;
+                return;
             }
         }
-        //m_adjList[a.id()].push_back(b);
+            m_adjList[a.id()].push_back(b);
     }
-//    if(!NodeExistAdj( a, b.id() ) ){
-//        list<Node> adjList = getAdjNodes(b);
-//        for(list<Node>::const_iterator itr = adjList.begin(); itr != adjList.end(); ++itr){
-//            if(*itr > a){
-//                --itr;
-//                m_adjList[b.id()].insert(itr,a);
-//                break;
-//            }
-//        }
-//        //m_adjList[b.id()].push_back(a);
-//    }
 }
 
 //Insert a node a to m_nodes
@@ -63,8 +57,11 @@ void Graph::addNode ( const Node & a ) {
     ///if the node does not already exist
     //checking is the node is already in the vector
     if( !NodeExist(a.name() ) ){
-        m_nodes.reserve( m_nodes.size() + 1 );
-        m_nodes [ a.id( ) ] = a ;
+        //m_nodes.reserve( m_nodes.size() + 1 );
+        //m_nodes [ a.id( ) ] = a ;
+        m_nodes.push_back(a);
+        list<Node>adj;
+        m_adjList.push_back(adj);
     }
 }
 
@@ -161,13 +158,17 @@ void Graph::scan ( const string & file ){
         while( !iFile.eof() ){
                 getline(iFile, fline);
                 //string L(line);
-                vector<string> names = split(fline);
+                //vector<string> names = split(fline);
+                vector<string>names(2);
+                names[0] = fline.c_str()[0];
+                names[1] = fline.c_str()[2];
+
                 if(!NodeExist( names[0] ) ){
                         Node tmp1( names[0],id++);
                         N1 = tmp1;
                         addNode(N1);
                 }else{
-                    N1 = getNode( findID( names[1] ) ) ;
+                    N1 = getNode( findID( names[0] ) ) ;
                 }
                 if(!NodeExist( names[1] ) ){
                         Node tmp2( names[1] ,id++);
@@ -181,8 +182,6 @@ void Graph::scan ( const string & file ){
         iFile.close();
     }else{
         cout << "File: " << file << " does not exist" << endl;
-        m_nodes = vector<Node>();
-        m_adjList = vector<list<Node> >();
     }//end of else
 }//end of scan
 
@@ -191,7 +190,7 @@ void Graph::scan ( const string & file ){
 void Graph::save( const string & file ){
     //NOTE: the method assumes the file does not exist and will overwrite
     // if the file does exist
-
+        cout << "in save" << endl;
         ofstream OFile;
         OFile.open(file.c_str(), ofstream::out);
         for(size_t i =0; i < m_nodes.size(); i++){

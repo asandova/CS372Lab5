@@ -1,15 +1,16 @@
 # depslib dependency file v1.0
-1506666284 source:g:\programs\cs372lab5\lab5\main.cpp
+1507616764 source:g:\programs\cs372lab5\lab5\main.cpp
 	<iostream>
 	<vector>
 	<string>
+	<stack>
 	<cstdlib>
 	<cstdio>
 	<ctype.h>
 	"Node.h"
 	"Graph.h"
 
-1506625057 g:\programs\cs372lab5\lab5\node.h
+1507616622 g:\programs\cs372lab5\lab5\node.h
 	<string>
 
 1507528863 g:\programs\cs372lab5\lab5\graph.h
@@ -17,12 +18,12 @@
 	<vector>
 	<list>
 
-1506661120 source:g:\programs\cs372lab5\lab5\node.cpp
+1507616727 source:g:\programs\cs372lab5\lab5\node.cpp
 	<iostream>
 	<string>
 	"Node.h"
 
-1507529523 source:g:\programs\cs372lab5\lab5\graph.cpp
+1507616084 source:g:\programs\cs372lab5\lab5\graph.cpp
 	<iostream>
 	<string>
 	<vector>

@@ -22,20 +22,21 @@ using namespace std;
 
 void Explore(Graph & G, Node & C);
 
-int time;
+int GTime;
 Node nulNode("",0);
 
 void DFS(Graph & G){ ///linear time DFS algorithm
-
+    cout << "in DFS" << endl;
     for(size_t i = 0; i < G.num_nodes(); i ++){ ///finds unexplored node
         if( G.getNode(i).getPreTime() == 0  ){ ///checks if Node with ID i is unexplored
-            G.getNode(i).setPreTime(time++); ///sets pretime of unexplored node
+            G.getNode(i).setPreTime(GTime++); ///sets pretime of unexplored node
             list<Node> adj = G.getAdjNodes( G.getNode(i) );/// gets the adjacency list
             for(list<Node>::iterator itr = adj.begin(); itr != adj.end(); ++itr){ ///looks for next unexplored node connected to current node
-                if( itr->getPreTime() != 0 ){///check if node in list is unexplored
-                        itr->setPreTime(time++);///sets pretime of node
+                if( itr->getPreTime() == 0 ){///check if node in list is unexplored
+                        itr->setPreTime(GTime++);///sets pretime of node
                         Explore(G,*itr); ///find next unexplored node
-                        itr->setPostTime(time++);///sets post time of node
+                        itr->setPostTime(GTime++);///sets post time of node
+                        cout << *itr << endl << endl;
                 }
             }//end of for
         }//end of if
@@ -52,9 +53,9 @@ void DFSRecursive(Graph & G){ /// Recursive DFS algorithm
     if(starting == nulNode)
         return;
     else{
-        starting.setPreTime(time++);
+        starting.setPreTime(GTime++);
         Explore(G,starting);
-        starting.setPostTime(time++);
+        starting.setPostTime(GTime++);
         DFSRecursive(G);
     }
 }
@@ -63,18 +64,18 @@ void DFSItative(Graph & G){ /// Iterative DFS algorithm
     ///use stacks
 
     stack<Node> dfs;
-    G.getNode(0).setPreTime(time++);
+    G.getNode(0).setPreTime(GTime++);
     dfs.push( G.getNode( 0 ) );
     while(!dfs.empty()){
         list<Node> adj = G.getAdjNodes( dfs.top() );
         for(list<Node>::iterator itr = adj.begin(); itr != adj.end(); ++itr){
             if(itr->getPreTime() == 0){
-                itr->setPreTime(time++);
+                itr->setPreTime(GTime++);
                 dfs.push(*itr);
                 continue;
             }
         }
-        dfs.top().setPostTime(time++);
+        dfs.top().setPostTime(GTime++);
         dfs.pop();
     }
 
@@ -86,19 +87,20 @@ void Explore(Graph & G, Node & C){
         return;
 
     //set post time
-    C.setPreTime(time++);
+    C.setPreTime(GTime++);
      //look for next node
-     const list<Node> links = G.getAdjNodes( C );
-     for(list<Node>::const_iterator itr = links.begin(); itr != links.end() ; ++itr ){
+     list<Node> links = G.getAdjNodes( C );
+     for(list<Node>::iterator itr = links.begin(); itr != links.end() ; ++itr ){
             Explore(G,*itr);
      }
     //set post time
-   C.setPostTime(time++);
+   C.setPostTime(GTime++);
 }
 
 void testall(){
 
     Graph Tgraph1("Graph1.txt");
+    cout << Tgraph1 << endl;
     Graph Tgraph2("Graph2.txt");
     Graph Tgraph3("Graph3.txt");
     Tgraph1.save("Graph1out.txt");
@@ -107,14 +109,18 @@ void testall(){
 
 
     ///test linear
-    //time = 1;
-    //DFS(Tgraph1);
+    GTime = 1;
+    DFS(Tgraph1);
+    cout << GTime << endl;
+    cout << Tgraph1 << endl;
     ///test recursive
-    //time = 1;
+    //GTime = 1;
     //DFSRecursive(Tgraph2);
+    //cout << Tgraph2 << endl;
     ///test iterative
-   // time = 1;
+    //GTime = 1;
     //DFSItative(Tgraph3);
+    //cout << Tgraph3 << endl;
 
 
 }
