@@ -56,8 +56,8 @@ const string & Node::name()const{
 //comparison operator overloading
 
 ostream& operator<<(ostream & out, const Node & n){
-    out << n.m_name << " " << n.m_id << endl;
-    out << n.preTime << " " << n.postTime;
+    out << n.m_name << " ID: " << n.m_id << endl;
+    out << "pre: " << n.preTime << " post: " << n.postTime;
     return out;
 }
 
